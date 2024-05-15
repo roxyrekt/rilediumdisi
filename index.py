@@ -27,7 +27,7 @@ api_key = steam_api_key
 @bot.listen('on_message')
 async def on_message(message):
     # Sadece belirli bir kanaldaki mesajları işle
-    if message.channel.id != 1239701061179150346: #1232074719486808184:
+    if message.channel.id != 1232074719486808184:
         if message.content.startswith('!steamlink'):
             steam_link = message.content[len('!steamlink'):].strip()
             await message.channel.send("Sadece VEGAS reisin ayarladığı kanallarda çalışır.")
@@ -55,7 +55,7 @@ async def on_message(message):
 
         steam_id3 = str(int(steam_id64) - 76561197960265728)
         steam_id31 = f"[U:1:{steam_id3}]"
-        await message.channel.send(f"<a:sorublok:1240367808550797402> Komutu kullanan: {message.author.mention}\n<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`")
+        await message.channel.send(f"Komutu kullanan: {message.author.mention}\n<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`")
 
 # Botu çalıştırma
 bot.run(discord_token)
