@@ -55,7 +55,7 @@ async def on_message(message):
 
         steam_id3 = str(int(steam_id64) - 76561197960265728)
         steam_id31 = f"[U:1:{steam_id3}]"
-        await message.channel.send(f"Komutu kullanan: {message.author.mention}\n**SteamID3:** `{steam_id31}`\n**SteamID64:** `{steam_id64}`")
+        await message.channel.send(f"Komutu kullanan: {message.author.mention}\n<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`")
 
 # Botu çalıştırma
 bot.run(discord_token)
