@@ -27,7 +27,7 @@ api_key = steam_api_key
 @bot.listen('on_message')
 async def on_message(message):
     # Sadece belirli bir kanaldaki mesajları işle
-    if message.channel.id != 1232074719486808184:
+    if message.channel.id != 1239701061179150346: #1232074719486808184:
         if message.content.startswith('!steamlink'):
             steam_link = message.content[len('!steamlink'):].strip()
             await message.channel.send("Sadece VEGAS reisin ayarladığı kanallarda çalışır.")
