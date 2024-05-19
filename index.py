@@ -24,11 +24,14 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 # Steam Web API anahtarı
 api_key = steam_api_key
 
+# İzin verilen kanal kimliklerini tanımlayın
+allowed_channels = [1239701061179150346, 1232074719486808184]
+
 # steamid komutu
 @bot.command(name='steamid')
 async def steamid(ctx, steam_identifier: str):
-    # Sadece belirli bir kanalda çalışsın
-    if ctx.channel.id != 1239701061179150346:
+    # Sadece belirli kanallarda çalışsın
+    if ctx.channel.id not in allowed_channels:
         await ctx.send("Sadece VEGAS reisin ayarladığı kanallarda çalışır.")
         return
     
@@ -38,8 +41,6 @@ async def steamid(ctx, steam_identifier: str):
             steam_id64 = steam_identifier
             steam_id3 = str(int(steam_id64) - 76561197960265728)
             steam_id31 = f"[U:1:{steam_id3}]"
-        else:
-            await ctx.send("Geçersiz SteamID")
         elif steam_identifier.startswith("[U:1:") and steam_identifier.endswith("]"):
             # SteamID3 işle
             steam_id3 = steam_identifier[5:-1]
