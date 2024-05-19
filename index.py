@@ -38,6 +38,8 @@ async def steamid(ctx, steam_identifier: str):
             steam_id64 = steam_identifier
             steam_id3 = str(int(steam_id64) - 76561197960265728)
             steam_id31 = f"[U:1:{steam_id3}]"
+        else:
+            await ctx.send("Geçersiz SteamID")
         elif steam_identifier.startswith("[U:1:") and steam_identifier.endswith("]"):
             # SteamID3 işle
             steam_id3 = steam_identifier[5:-1]
