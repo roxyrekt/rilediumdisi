@@ -4,6 +4,7 @@ import re
 import requests
 import os
 from dotenv import load_dotenv
+from datetime import datetime
 
 from keep_alive import keep_alive
 keep_alive()
@@ -74,7 +75,8 @@ async def steamid(ctx, steam_identifier: str):
         player_info = profile_data['response']['players'][0]
 
         # Ek bilgileri ayıkla
-        profile_created = player_info.get('timecreated', 'Bilinmiyor')
+        profile_created_unix = player_info.get('timecreated', 'Bilinmiyor')
+        profile_created_human = datetime.utcfromtimestamp(profile_created_unix).strftime('%Y-%m-%d %H:%M:%S') if profile_created_unix != 'Bilinmiyor' else 'Bilinmiyor'
         profile_state = 'Public' if player_info.get('communityvisibilitystate', 0) == 3 else 'Private'
         profile_name = player_info.get('personaname', 'Bilinmiyor')
         profile_location = player_info.get('loccountrycode', 'Bilinmiyor')
@@ -86,7 +88,7 @@ async def steamid(ctx, steam_identifier: str):
             f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
             f"<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`\n"
             f"<a:ok23:1231431234907799682> **Profil Durumu:** {profile_state}\n"
-            f"<a:ok23:1231431234907799682> **Profil Oluşturulma Tarihi:** <t:1585579666{profile_created}:R>\n"
+            f"<a:ok23:1231431234907799682> **Profil Oluşturulma Tarihi:** <t:{profile_created_unix}:R> veya {profile_created_human}\n"
             f"<a:ok23:1231431234907799682> **Kullanıcı Adı:** {profile_name}\n"
             f"<a:ok23:1231431234907799682> **Konum:** {profile_location}\n"
             f"<a:ok23:1231431234907799682> **Özel URL:** {profile_custom_url}"
