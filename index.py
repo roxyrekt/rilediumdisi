@@ -77,7 +77,7 @@ async def steamid(ctx, steam_identifier: str):
         # Ek bilgileri ayıkla
         profile_created_unix = player_info.get('timecreated', 'Bilinmiyor')
         profile_created_human = datetime.utcfromtimestamp(profile_created_unix).strftime('%Y-%m-%d %H:%M:%S') if profile_created_unix != 'Bilinmiyor' else 'Bilinmiyor'
-        profile_state = 'Herkese Açık' if player_info.get('communityvisibilitystate', 0) == 3 else 'Gizli'
+        profile_state = 'Açık' if player_info.get('communityvisibilitystate', 0) == 3 else 'Gizli'
         profile_name = player_info.get('personaname', 'Bilinmiyor')
         profile_location = player_info.get('loccountrycode', 'Bilinmiyor')
         profile_custom_url = player_info.get('profileurl', 'Bilinmiyor')
@@ -89,6 +89,7 @@ async def steamid(ctx, steam_identifier: str):
         message = (
             f"Komutu kullanan: {ctx.author.mention}\n"
             f"<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n"
+            f"<a:ok23:1231431234907799682> **SteamID:** `{steam_identifier}`\n"
             f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
             f"<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`\n"
             f"<a:ok23:1231431234907799682> **Profil Durumu:** `{profile_state}`\n"
