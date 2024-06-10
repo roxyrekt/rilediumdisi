@@ -79,8 +79,20 @@ async def steamid(ctx, steam_identifier: str):
         profile_name = player_info.get('personaname', 'Bilinmiyor')
         profile_location = player_info.get('loccountrycode', 'Bilinmiyor')
         profile_custom_url = player_info.get('profileurl', 'Bilinmiyor')
+
+        message = (
+            f"Komutu kullanan: {ctx.author.mention}\n"
+            f"<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n"
+            f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
+            f"<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`\n"
+            f"<a:ok23:1231431234907799682> **Profil Durumu:** {profile_state}\n"
+            f"<a:ok23:1231431234907799682> **Profil Oluşturulma Tarihi:** <t:1585579666{profile_created}:R>\n"
+            f"<a:ok23:1231431234907799682> **Kullanıcı Adı:** {profile_name}\n"
+            f"<a:ok23:1231431234907799682> **Konum:** {profile_location}\n"
+            f"<a:ok23:1231431234907799682> **Özel URL:** {profile_custom_url}"
+        )
         
-        await ctx.send(f"Komutu kullanan: {ctx.author.mention}\n<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`\n<a:ok23:1231431234907799682> **Profil Durumu:** {profile_state}\n<a:ok23:1231431234907799682> **Profil Oluşturulma Tarihi:** {profile_created}\n<a:ok23:1231431234907799682> **Kullanıcı Adı:** {profile_name}\n<a:ok23:1231431234907799682> **Konum:** {profile_location}\n<a:ok23:1231431234907799682> **Özel URL:** {profile_custom_url}")
+        await ctx.send(message)
     except ValueError:
         await ctx.send("Geçersiz SteamID.")
 
