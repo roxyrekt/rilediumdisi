@@ -28,6 +28,13 @@ api_key = steam_api_key
 # İzin verilen kanal kimliklerini tanımlayın
 allowed_channels = [1239701061179150346, 1232074719486808184]
 
+def steam_id_to_steam_id64(steam_id):
+    parts = steam_id.split(':')
+    y = int(parts[1])
+    z = int(parts[2])
+    steam_id64 = 76561197960265728 + z * 2 + y
+    return str(steam_id64)
+
 # steamid komutu
 @bot.command(name='steamid')
 async def steamid(ctx, steam_identifier: str):
@@ -40,6 +47,11 @@ async def steamid(ctx, steam_identifier: str):
         if steam_identifier.isdigit() and len(steam_identifier) == 17:
             # SteamID64 işle
             steam_id64 = steam_identifier
+            steam_id3 = str(int(steam_id64) - 76561197960265728)
+            steam_id31 = f"[U:1:{steam_id3}]"
+        elif steam_identifier.startswith("STEAM_"):
+            # STEAM_ID işle
+            steam_id64 = steam_id_to_steam_id64(steam_identifier)
             steam_id3 = str(int(steam_id64) - 76561197960265728)
             steam_id31 = f"[U:1:{steam_id3}]"
         elif steam_identifier.startswith("[U:1:") and steam_identifier.endswith("]"):
