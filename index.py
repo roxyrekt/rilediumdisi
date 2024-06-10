@@ -63,27 +63,27 @@ async def steamid(ctx, steam_identifier: str):
             steam_id31 = steam_identifier
             steam_steamid = f"STEAM_0:{int(steam_id64) % 2}:{(int(steam_id64) - 76561197960265728) // 2}"
         else:
-            # Steam profil URL'si işle
+            # Steam profil URL'si veya özel URL işle
             match = re.search(r'(?:id|profiles)\/(?P<id>[\w-]+)', steam_identifier)
             if match:
                 identifier = match.group('id')
-                if identifier.isdigit():
-                    steam_id64 = identifier
-                else:
-                    response = requests.get(f"https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key={api_key}&vanityurl={identifier}")
-                    data = response.json()
-                    if data.get("response", {}).get("success", 0) == 1:
-                        steam_id64 = data["response"]["steamid"]
-                    else:
-                        await ctx.send("Geçersiz Steam linki.")
-                        return
-
-                steam_id3 = str(int(steam_id64) - 76561197960265728)
-                steam_id31 = f"[U:1:{steam_id3}]"
-                steam_steamid = f"STEAM_0:{int(steam_id64) % 2}:{(int(steam_id64) - 76561197960265728) // 2}"
             else:
-                await ctx.send("Geçersiz Steam linki.")
-                return
+                identifier = steam_identifier
+
+            if identifier.isdigit():
+                steam_id64 = identifier
+            else:
+                response = requests.get(f"https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key={api_key}&vanityurl={identifier}")
+                data = response.json()
+                if data.get("response", {}).get("success", 0) == 1:
+                    steam_id64 = data["response"]["steamid"]
+                else:
+                    await ctx.send("Geçersiz Steam linki veya özel URL.")
+                    return
+
+            steam_id3 = str(int(steam_id64) - 76561197960265728)
+            steam_id31 = f"[U:1:{steam_id3}]"
+            steam_steamid = f"STEAM_0:{int(steam_id64) % 2}:{(int(steam_id64) - 76561197960265728) // 2}"
         
         steam_profile_url = f"https://steamcommunity.com/profiles/{steam_id64}"
         
