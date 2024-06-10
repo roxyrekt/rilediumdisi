@@ -49,9 +49,11 @@ async def steamid(ctx, steam_identifier: str):
             steam_id64 = steam_identifier
             steam_id3 = str(int(steam_id64) - 76561197960265728)
             steam_id31 = f"[U:1:{steam_id3}]"
+            steam_steamid = f"STEAM_0:{int(steam_id64) % 2}:{(int(steam_id64) - 76561197960265728) // 2}"
         elif steam_identifier.startswith("STEAM_"):
             # STEAM_ID işle
-            steam_id64 = steam_id_to_steam_id64(steam_identifier)
+            steam_steamid = steam_identifier
+            steam_id64 = steam_id_to_steam_id64(steam_steamid)
             steam_id3 = str(int(steam_id64) - 76561197960265728)
             steam_id31 = f"[U:1:{steam_id3}]"
         elif steam_identifier.startswith("[U:1:") and steam_identifier.endswith("]"):
@@ -59,6 +61,7 @@ async def steamid(ctx, steam_identifier: str):
             steam_id3 = steam_identifier[5:-1]
             steam_id64 = str(int(steam_id3) + 76561197960265728)
             steam_id31 = steam_identifier
+            steam_steamid = f"STEAM_0:{int(steam_id64) % 2}:{(int(steam_id64) - 76561197960265728) // 2}"
         else:
             # Steam profil URL'si işle
             match = re.search(r'(?:id|profiles)\/(?P<id>[\w-]+)', steam_identifier)
@@ -77,6 +80,7 @@ async def steamid(ctx, steam_identifier: str):
 
                 steam_id3 = str(int(steam_id64) - 76561197960265728)
                 steam_id31 = f"[U:1:{steam_id3}]"
+                steam_steamid = f"STEAM_0:{int(steam_id64) % 2}:{(int(steam_id64) - 76561197960265728) // 2}"
             else:
                 await ctx.send("Geçersiz Steam linki.")
                 return
@@ -103,7 +107,7 @@ async def steamid(ctx, steam_identifier: str):
         message = (
             f"Komutu kullanan: {ctx.author.mention}\n"
             f"<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n"
-            f"<a:ok23:1231431234907799682> **SteamID:** `{steam_identifier}`\n"
+            f"<a:ok23:1231431234907799682> **SteamID:** `{steam_steamid}`\n"
             f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
             f"<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`\n"
             f"<a:ok23:1231431234907799682> **Profil Durumu:** `{profile_state}`\n"
