@@ -77,7 +77,7 @@ async def steamid(ctx, steam_identifier: str):
         # Ek bilgileri ayıkla
         profile_created_unix = player_info.get('timecreated', 'Bilinmiyor')
         profile_created_human = datetime.utcfromtimestamp(profile_created_unix).strftime('%Y-%m-%d %H:%M:%S') if profile_created_unix != 'Bilinmiyor' else 'Bilinmiyor'
-        profile_state = 'Public' if player_info.get('communityvisibilitystate', 0) == 3 else 'Private'
+        profile_state = 'Herkese Açık' if player_info.get('communityvisibilitystate', 0) == 3 else 'Gizli'
         profile_name = player_info.get('personaname', 'Bilinmiyor')
         profile_location = player_info.get('loccountrycode', 'Bilinmiyor')
         profile_custom_url = player_info.get('profileurl', 'Bilinmiyor')
