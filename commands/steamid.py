@@ -3,7 +3,6 @@ import requests
 from datetime import datetime, timezone, timedelta
 import discord
 from discord.ext import commands
-from discord import app_commands
 import os
 from dotenv import load_dotenv
 
@@ -27,11 +26,10 @@ class SteamID(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @app_commands.command(name='steamid', description="Convert and display SteamID information")
-    @app_commands.describe(steam_identifier="The SteamID or profile URL to lookup")
-    async def steamid(self, interaction: discord.Interaction, steam_identifier: str):
-        if interaction.channel_id not in allowed_channels:
-            await interaction.response.send_message("Sadece VEGAS reisin ayarladığı kanallarda çalışır.", ephemeral=True)
+    @commands.command(name='steamid')
+    async def steamid(self, ctx, steam_identifier: str):
+        if ctx.channel.id not in allowed_channels:
+            await ctx.send("Sadece VEGAS reisin ayarladığı kanallarda çalışır.")
             return
         
         try:
@@ -50,7 +48,7 @@ class SteamID(commands.Cog):
             custom_url_username = self.extract_custom_url(profile_custom_url)
 
             message = (
-                f"Komutu kullanan: {interaction.user.mention}\n"
+                f"Komutu kullanan: {ctx.author.mention}\n"
                 f"<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n"
                 f"<a:ok23:1231431234907799682> **SteamID:** `{steam_steamid}`\n"
                 f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
@@ -62,9 +60,9 @@ class SteamID(commands.Cog):
                 f"<a:ok23:1231431234907799682> **Özel URL:** `{custom_url_username}`"
             )
 
-            await interaction.response.send_message(message)
+            await ctx.send(message)
         except ValueError:
-            await interaction.response.send_message("Geçersiz SteamID.", ephemeral=True)
+            await ctx.send("Geçersiz SteamID.")
     
     def process_steam_identifier(self, steam_identifier):
         if steam_identifier.isdigit() and len(steam_identifier) == 17:
