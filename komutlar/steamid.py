@@ -48,7 +48,7 @@ class SteamID(commands.Cog):
             custom_url_username = self.extract_custom_url(profile_custom_url)
 
             message = (
-                f"Kullanılan Komut: `!steamid {steam_identifier}`\n"
+                f"Kullanılan komut: `!steamid {steam_identifier}`\n"
                 f"Komutu kullanan: {ctx.author.mention}\n"
                 f"<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n"
                 f"<a:ok23:1231431234907799682> **SteamID:** `{steam_steamid}`\n"
