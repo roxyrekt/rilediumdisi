@@ -15,9 +15,12 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-# Komutları yükle
+# Komutları otomatik olarak yükle
 async def load_extensions():
-    await bot.load_extension("commands.steamid")
+    for filename in os.listdir('./komutlar'):
+        if filename.endswith('.py'):
+            await bot.load_extension(f'komutlar.{filename[:-3]}')
+            print(f'{filename[:-3]} komutu yüklendi')
 
 @bot.event
 async def on_ready():
