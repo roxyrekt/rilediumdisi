@@ -54,7 +54,7 @@ class SteamID(commands.Cog):
                 f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
                 f"<a:ok23:1231431234907799682> **SteamID64:** `{steam_id64}`\n"
                 f"<a:ok23:1231431234907799682> **Profil Durumu:** `{profile_state}`\n"
-                f"<a:ok23:1231431234907799682> **Profil Oluşturulma Tarihi:** `{profile_created_human}`\n"
+                f"<a:ok23:1231431234907799682> **Profil Oluşturulma Tarihi:** <t:{profile_created_unix}:R> | `{profile_created_human}`\n"
                 f"<a:ok23:1231431234907799682> **Kullanıcı Adı:** `{profile_name}`\n"
                 f"<a:ok23:1231431234907799682> **Konum:** `{profile_location}`\n"
                 f"<a:ok23:1231431234907799682> **Özel URL:** `{custom_url_username}`"
