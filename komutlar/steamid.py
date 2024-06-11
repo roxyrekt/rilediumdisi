@@ -49,6 +49,7 @@ class SteamID(commands.Cog):
 
             message = (
                 f"Komutu kullanan: {ctx.author.mention}\n"
+                f"Kullanılan Komut: `!steamid {steam_identifier}`\n"
                 f"<a:ok23:1231431234907799682> **Steam Profili:** {steam_profile_url}\n"
                 f"<a:ok23:1231431234907799682> **SteamID:** `{steam_steamid}`\n"
                 f"<a:ok23:1231431234907799682> **SteamID3:** `{steam_id31}`\n"
