@@ -8,7 +8,7 @@ import re
 # .env dosyasını yükle
 load_dotenv()
 
-class Kayit(commands.Cog):
+class KayitSil(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -18,8 +18,9 @@ class Kayit(commands.Cog):
             return all(0 <= int(num) < 256 for num in ip.split('.'))
         return False
 
-    @commands.command(name='kayit')
-    async def kayit(self, ctx, ip: str):
+    @commands.command(name='kayitsil')
+    @commands.has_permissions(manage_messages=True)
+    async def kayitsil(self, ctx, ip: str):
         if not self.is_valid_ip(ip):
             await ctx.send(f'Geçersiz IP adresi formatı: {ip}')
             return
@@ -49,13 +50,13 @@ class Kayit(commands.Cog):
                 await ctx.send(f'Mevcut içeriği alırken bir hata oluştu: {e}')
                 return
 
-            # IP zaten var mı kontrol et
-            if ip in content:
-                await ctx.send(f'IP adresi zaten mevcut: {ip}')
+            # IP var mı kontrol et
+            if ip not in content:
+                await ctx.send(f'IP adresi mevcut değil: {ip}')
                 return
 
-            # Yeni IP'yi ekle
-            new_content = content + '\n' + ip
+            # IP'yi içerikten sil
+            new_content = '\n'.join([line for line in content.splitlines() if line.strip() != ip.strip()])
 
             # Edit sayfasını al
             try:
@@ -87,11 +88,11 @@ class Kayit(commands.Cog):
             try:
                 async with session.post(edit_url, headers=headers, data=payload) as response:
                     if response.status == 200:
-                        await ctx.send(f'IP adresi başarıyla eklendi: {ip}')
+                        await ctx.send(f'IP adresi başarıyla silindi: {ip}')
                     else:
-                        await ctx.send(f'IP adresi eklenirken bir hata oluştu: {response.status}')
+                        await ctx.send(f'IP adresi silinirken bir hata oluştu: {response.status}')
             except Exception as e:
-                await ctx.send(f'IP adresi eklenirken bir hata oluştu: {e}')
+                await ctx.send(f'IP adresi silinirken bir hata oluştu: {e}')
 
 async def setup(bot):
-    await bot.add_cog(Kayit(bot))
+    await bot.add_cog(KayitSil(bot))

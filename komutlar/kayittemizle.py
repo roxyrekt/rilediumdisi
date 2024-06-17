@@ -3,28 +3,17 @@ import aiohttp
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 import os
-import re
 
 # .env dosyasını yükle
 load_dotenv()
 
-class Kayit(commands.Cog):
+class KayitTemizle(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    def is_valid_ip(self, ip: str) -> bool:
-        pattern = re.compile(r"^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$")
-        if pattern.match(ip):
-            return all(0 <= int(num) < 256 for num in ip.split('.'))
-        return False
-
-    @commands.command(name='kayit')
-    async def kayit(self, ctx, ip: str):
-        if not self.is_valid_ip(ip):
-            await ctx.send(f'Geçersiz IP adresi formatı: {ip}')
-            return
-
-        raw_url = 'https://rentry.co/katroxipler/raw'
+    @commands.command(name='kayittemizle')
+    @commands.has_permissions(administrator=True)
+    async def kayittemizle(self, ctx):
         edit_url = 'https://rentry.co/katroxipler/edit'
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -37,26 +26,6 @@ class Kayit(commands.Cog):
             return
 
         async with aiohttp.ClientSession() as session:
-            # Önce mevcut içeriği al
-            try:
-                async with session.get(raw_url) as response:
-                    if response.status == 200:
-                        content = await response.text()
-                    else:
-                        await ctx.send('Mevcut içeriği alırken bir hata oluştu.')
-                        return
-            except Exception as e:
-                await ctx.send(f'Mevcut içeriği alırken bir hata oluştu: {e}')
-                return
-
-            # IP zaten var mı kontrol et
-            if ip in content:
-                await ctx.send(f'IP adresi zaten mevcut: {ip}')
-                return
-
-            # Yeni IP'yi ekle
-            new_content = content + '\n' + ip
-
             # Edit sayfasını al
             try:
                 async with session.get(edit_url) as response:
@@ -74,10 +43,10 @@ class Kayit(commands.Cog):
                 await ctx.send(f'Edit sayfasını alırken bir hata oluştu: {e}')
                 return
 
-            # Yeni içeriği güncelle
+            # İçeriği temizle
             payload = {
                 'csrfmiddlewaretoken': csrf_token,
-                'text': new_content,
+                'text': '',
                 'edit_code': edit_code,
                 'new_edit_code': '',
                 'new_url': '',
@@ -87,11 +56,11 @@ class Kayit(commands.Cog):
             try:
                 async with session.post(edit_url, headers=headers, data=payload) as response:
                     if response.status == 200:
-                        await ctx.send(f'IP adresi başarıyla eklendi: {ip}')
+                        await ctx.send('Tüm IP adresleri başarıyla temizlendi.')
                     else:
-                        await ctx.send(f'IP adresi eklenirken bir hata oluştu: {response.status}')
+                        await ctx.send(f'IP adresleri temizlenirken bir hata oluştu: {response.status}')
             except Exception as e:
-                await ctx.send(f'IP adresi eklenirken bir hata oluştu: {e}')
+                await ctx.send(f'IP adresleri temizlenirken bir hata oluştu: {e}')
 
 async def setup(bot):
-    await bot.add_cog(Kayit(bot))
+    await bot.add_cog(KayitTemizle(bot))
