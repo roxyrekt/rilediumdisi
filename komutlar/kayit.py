@@ -81,5 +81,5 @@ class Kayit(commands.Cog):
             except Exception as e:
                 await ctx.send(f'IP adresi eklenirken bir hata oluştu: {e}')
 
-def setup(bot):
-    bot.add_cog(Kayit(bot))
+async def setup(bot):
+    await bot.add_cog(Kayit(bot))
