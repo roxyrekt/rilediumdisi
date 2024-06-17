@@ -20,6 +20,10 @@ class Kayit(commands.Cog):
         }
         edit_code = os.getenv('RENRY_EDIT_CODE')  # .env dosyasından edit kodunu al
 
+        if not edit_code:
+            await ctx.send('Edit kodu bulunamadı. Lütfen .env dosyasını kontrol edin.')
+            return
+
         async with aiohttp.ClientSession() as session:
             # Önce mevcut içeriği al
             async with session.get(raw_url) as response:
@@ -43,6 +47,9 @@ class Kayit(commands.Cog):
                     text = await response.text()
                     soup = BeautifulSoup(text, 'html.parser')
                     csrf_token = soup.find('input', {'name': 'csrfmiddlewaretoken'})['value']
+                    if not csrf_token:
+                        await ctx.send('CSRF token alınamadı. Edit sayfasını kontrol edin.')
+                        return
                 else:
                     await ctx.send('Edit sayfasını alırken bir hata oluştu.')
                     return
