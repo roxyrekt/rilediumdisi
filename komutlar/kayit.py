@@ -17,6 +17,7 @@ class Kayit(commands.Cog):
         edit_url = 'https://rentry.co/katroxipler/edit'
         headers = {
             'Content-Type': 'application/x-www-form-urlencoded',
+            'Referer': 'https://rentry.co/katroxipler/edit',
         }
         edit_code = os.getenv('RENRY_EDIT_CODE')  # .env dosyasından edit kodunu al
 
